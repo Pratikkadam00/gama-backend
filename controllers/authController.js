@@ -17,7 +17,7 @@ export const register = async (req, res) => {
 
     res
       .status(201)
-      .json({ message: "User registered successfully", data: { name, email } });
+      .json({ message: "User registered successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
@@ -38,8 +38,7 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       token,
-      message: "User logged in successfully",
-      data: { name: user.name, email: user.email },
+      message: "User logged in successfully"
     });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });

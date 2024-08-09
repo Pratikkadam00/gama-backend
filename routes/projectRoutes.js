@@ -5,18 +5,17 @@ import {
   uploadMedia,
   updateMedia,
   deleteMedia,
-  getAllMedia
+  getAllMedia,
 } from "../controllers/projectController.js";
-import { protect } from "../middlewares/authMiddleware.js";
+// import { protect } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", protect, createProject);
-router.get("/", protect, getProjects);
-router.post("/:projectId", protect, uploadMedia);
-router.put("/:mediaId", protect, updateMedia);
-router.delete("/:mediaId", protect, deleteMedia);
-router.get("/:projectId/AllMedia", protect, getAllMedia);
-
+router.post("/", createProject);
+router.get("/", getProjects);
+router.post("/:projectId", uploadMedia);
+router.put("/:mediaId", updateMedia);
+router.delete("/:mediaId", deleteMedia);
+router.get("/:projectId/AllMedia", getAllMedia);
 
 export default router;

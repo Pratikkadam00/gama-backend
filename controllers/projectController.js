@@ -2,21 +2,23 @@ import Project from "../models/project.js";
 import Media from "../models/media.js";
 
 export const createProject = async (req, res) => {
-  const { name } = req.body;
+  const { name, userId } = req.body;
 
   try {
-    const project = new Project({ name, createdBy: req.user._id });
+    const project = new Project({ name, userId });
     await project.save();
 
     res.status(201).json(project);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
 export const getProjects = async (req, res) => {
+  const { userId } = req.params;
   try {
-    const projects = await Project.find({ createdBy: req.user._id });
+    const projects = await Project.find({ createdBy: userId });
 
     res.status(200).json(projects);
   } catch (error) {

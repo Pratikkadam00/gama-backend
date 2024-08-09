@@ -14,10 +14,11 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
     await user.save();
-
-    res
-      .status(201)
-      .json({ message: "User registered successfully" });
+    console.log(user);
+    res.status(201).json({
+      message: "User registered successfully",
+      user: { name, email, userId: user.id },
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
@@ -38,7 +39,8 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       token,
-      message: "User logged in successfully"
+      message: "User logged in successfully",
+      user: { name: user.name, email: user.email, userId: user._id },
     });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });

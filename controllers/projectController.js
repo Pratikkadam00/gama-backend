@@ -1,7 +1,6 @@
 import Project from "../models/project.js";
 import Media from "../models/media.js";
 
-// Create a new project
 export const createProject = async (req, res) => {
   const { name } = req.body;
 
@@ -15,7 +14,6 @@ export const createProject = async (req, res) => {
   }
 };
 
-// Get all projects created by the user
 export const getProjects = async (req, res) => {
   try {
     const projects = await Project.find({ createdBy: req.user._id });
@@ -26,7 +24,6 @@ export const getProjects = async (req, res) => {
   }
 };
 
-// Upload a new media file/link to a project
 export const uploadMedia = async (req, res) => {
   const { projectId } = req.params;
   const { name, mediaType, link, fileSize, description } = req.body;
@@ -53,7 +50,6 @@ export const uploadMedia = async (req, res) => {
   }
 };
 
-// Update media details
 export const updateMedia = async (req, res) => {
   const { mediaId } = req.params;
   const { name, mediaType, link, fileSize, description } = req.body;
@@ -78,7 +74,6 @@ export const updateMedia = async (req, res) => {
   }
 };
 
-// Delete a media entry
 export const deleteMedia = async (req, res) => {
   const { mediaId } = req.params;
 
@@ -97,7 +92,6 @@ export const deleteMedia = async (req, res) => {
   }
 };
 
-// Get all media files for a specific project
 export const getAllMedia = async (req, res) => {
   const { projectId } = req.params;
 

@@ -3,16 +3,17 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import projectRoutes from "./routes/projectRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 const MONGO_URI = process.env.MONGO_URI;
-
-app.get("/",(req,res)=>{
-  res.send("Healthy")
-})
+app.use(cors());
+app.get("/", (req, res) => {
+  res.send("Healthy");
+});
 app.use("/api/projects", projectRoutes);
 app.use("/api/auth", authRoutes);
 

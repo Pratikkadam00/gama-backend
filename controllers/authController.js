@@ -4,15 +4,22 @@ import User from "../models/user.js";
 import { generateToken } from "../utils/jwtUtils.js";
 
 export const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ username, email, password: hashedPassword });
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+    });
     await user.save();
 
-    res.status(201).json({ message: "User registered successfully" });
+    res
+      .status(201)
+      .json({ message: "User registered successfully", data: { name, email } });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -29,7 +36,11 @@ export const login = async (req, res) => {
 
     const token = generateToken(user._id);
 
-    res.status(200).json({ token });
+    res.status(200).json({
+      token,
+      message: "User logged in successfully",
+      data: { name: user.name, email: user.email },
+    });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }

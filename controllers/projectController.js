@@ -18,7 +18,7 @@ export const createProject = async (req, res) => {
 export const getProjects = async (req, res) => {
   const { userId } = req.params;
   try {
-    const projects = await Project.find({ createdBy: userId });
+    const projects = await Project.find({ userId }).sort({ updatedAt: -1 });
 
     res.status(200).json(projects);
   } catch (error) {

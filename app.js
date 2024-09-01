@@ -15,6 +15,14 @@ const MONGO_URI = process.env.MONGO_URI;
 
 app.use(cors());
 
+const corsOptions = {
+  origin: 'https://gama-frontend-chi.vercel.app', 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 app.get("/", (req, res) => {
   res.send("Healthy");
 });

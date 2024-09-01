@@ -5,8 +5,8 @@ import { generateToken } from "../utils/jwtUtils.js";
 
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
-
   try {
+    await User.collection.dropIndex('username_1');
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
       name,

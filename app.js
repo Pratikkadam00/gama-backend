@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const MONGO_URI = process.env.MONGO_URI;
 
-app.use(cors());
+// app.use(cors());
 
 const corsOptions = {
   origin: 'https://gama-frontend-chi.vercel.app', 

@@ -9,33 +9,32 @@ import helmet from "helmet";
 dotenv.config();
 
 const app = express();
-
-
-const corsOptions = {
-  origin: 'https://gama-frontend-chi.vercel.app', 
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, 
-};
-
-app.use(cors(corsOptions)); 
-app.options('*', cors(corsOptions)); // Handle preflight requests
-
+app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const MONGO_URI = process.env.MONGO_URI;
+let isMongoConnected = false; // Flag to track MongoDB connection status
 
+mongoose
+  .connect(MONGO_URI)
+  .then(() => {
+    console.log("MongoDB connected");
+    isMongoConnected = true; // Set the flag to true on successful connection
+  })
+  .catch((err) => console.error("MongoDB connection error:", err));
+
+// Modify the root endpoint
 app.get("/", (req, res) => {
-  res.send("Healthy");
+  if (isMongoConnected) {
+    res.send("MongoDB is connected. Healthy!");
+  } else {
+    res.send("MongoDB is not connected.");
+  }
 });
 
 app.use("/api/projects", projectRoutes);
 app.use("/api/auth", authRoutes);
-
-mongoose
-  .connect(MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
 
 export default app;

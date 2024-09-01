@@ -9,22 +9,27 @@ import helmet from "helmet";
 dotenv.config();
 
 const app = express();
-app.use(cors());
 
-app.use(helmet())
 
+const corsOptions = {
+  origin: 'https://gama-frontend-chi.vercel.app', 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+};
+
+app.use(cors(corsOptions)); 
+app.options('*', cors(corsOptions)); // Handle preflight requests
+
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const MONGO_URI = process.env.MONGO_URI;
 
-
-
-
-
 app.get("/", (req, res) => {
   res.send("Healthy");
 });
+
 app.use("/api/projects", projectRoutes);
 app.use("/api/auth", authRoutes);
 

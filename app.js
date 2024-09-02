@@ -15,23 +15,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const MONGO_URI = process.env.MONGO_URI;
-let isMongoConnected = false; // Flag to track MongoDB connection status
+// Flag to track MongoDB connection status
 
 mongoose
   .connect(MONGO_URI)
   .then(() => {
     console.log("MongoDB connected");
-    isMongoConnected = true; // Set the flag to true on successful connection
   })
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Modify the root endpoint
 app.get("/", (req, res) => {
-  if (isMongoConnected) {
-    res.send("MongoDB is connected. Healthy!");
-  } else {
-    res.send("MongoDB is not connected.");
-  }
+  res.send("Healthy");
 });
 
 app.use("/api/projects", projectRoutes);
